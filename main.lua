@@ -22,6 +22,14 @@ function class:init(...) end
   Recursively load files and store them in a table.
 ]]
 
+local enet = require("enet")
+
+game = {}
+engine = {
+  class = class,
+  host = enet.host_create("*:6790"),
+}
+
 function scandir(directory)
   local i, t, popen = 0, {}, io.popen
   local pfile = popen('ls -a "'..directory..'"')
@@ -116,14 +124,6 @@ end
 
   Update is then looped until the exit condition is met.
 ]]
-
-local enet = require("enet")
-
-game = {}
-engine = {
-  class = class,
-  host = enet.host_create("*:6790"),
-}
 
 function load_game()
   
