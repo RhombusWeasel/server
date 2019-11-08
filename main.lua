@@ -76,6 +76,41 @@ local function getFiles(tab, path, folder)
   end
 end
 
+--[[Debug Functions:
+  
+]]
+
+local function format_time(s)
+  local secs = engine.string.r_pad(tostring(s % 60), 2, "0")
+  local mins = engine.string.r_pad(tostring(math.floor(s / 60) % 60), 2, "0")
+  local hours = engine.string.r_pad(tostring(math.floor(s / (60 * 60 * 24)) % 24), 2, "0")
+  return hours..":"..mins..":"..secs
+end
+
+function engine.debug_text(key, value)
+  local index = #engine.debug_log + 1
+  if engine.debug_mode then
+    if engine.debug_log[key] then
+      index = engine.debug_log[key].index
+      if engine.debug_log[key].value == value then
+        engine.debug_log[key].last = value
+        return
+      end
+    else
+      engine.debug_log[key] = {
+        value = value,
+        index = index,
+        last = "",
+      }
+      engine.debug_count = engine.debug_count + 1
+      engine.debug_draw[engine.debug_count] = key
+      return
+    end
+    engine.debug_log[key].changed = true
+    engine.debug_log[key].value = value
+  end
+end
+
 --[[Main Functions:
   load_game is called once at program start.
 
@@ -91,6 +126,10 @@ engine = {
 }
 
 function load_game()
+  
+end
+
+function update()
   
 end
 
